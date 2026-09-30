@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Location Finder</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f8fafc
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            padding: 40px 20px;
+
+        }
+
+
+        .container {
+
+            width: 100%;
+
+            max-width: 750px;
+
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .header .icon {
+
+            width: 60px;
+            height: 60px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-size: 28px;
+
+            box-shadow:
+                0 10px 25px
+                rgba(79, 70, 229, 0.25);
+
+        }
+
+
+        .header h1 {
+
+            margin-top: 15px;
+
+            color: #1e293b;
+
+            font-size: 28px;
+
+        }
+
+
+        .header p {
+
+            margin-top: 6px;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+        }
+
+
+        /* IDENTITAS */
+
+        .identity {
+
+            margin-top: 15px;
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+        }
+
+
+        .identity span {
+
+            background: white;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            color: #475569;
+
+            border: 1px solid #e2e8f0;
+
+        }
+
+
+        /* SEARCH */
+
+        .search-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(15, 23, 42, 0.07);
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .search-card label {
+
+            display: block;
+
+            font-weight: bold;
+
+            color: #334155;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .search {
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        .search input {
+
+            flex: 1;
+
+            padding: 13px 15px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            font-size: 15px;
+
+        }
+
+
+        .search input:focus {
+
+            border-color: #4f46e5;
+
+        }
+
+
+        .search button {
+
+            padding: 0 25px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .search button:hover {
+
+            background: #4338ca;
+
+        }
+
+
+        #status {
+
+            margin-top: 12px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+        }
+
+
+        /* HASIL */
+
+        #hasil {
+
+            display: none;
+
+        }
+
+
+        .result-title {
+
+            margin-bottom: 12px;
+
+            color: #334155;
+
+        }
+
+
+        /* LOKASI */
+
+        .location {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(15, 23, 42, 0.06);
+
+        }
+
+
+        .location h2 {
+
+            color: #1e293b;
+
+            font-size: 26px;
+
+        }
+
+
+        .location p {
+
+            color: #64748b;
+
+            margin-top: 5px;
+
+        }
+
+
+        /* DATA */
+
+        .data-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .data-card {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 18px;
+
+            border: 1px solid #e2e8f0;
+
+        }
+
+
+        .data-card .label {
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .data-card .value {
+
+            color: #1e293b;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* KOORDINAT */
+
+        .coordinates {
+
+            margin-top: 15px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .coordinate-card {
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            color: white;
+
+        }
+
+
+        .longitude {
+
+            background: #0f766e;
+
+        }
+
+
+        .latitude {
+
+            background: #7c3aed;
+
+        }
+
+
+        .coordinate-card small {
+
+            display: block;
+
+            opacity: 0.8;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .coordinate-card strong {
+
+            font-size: 21px;
+
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .search {
+
+                flex-direction: column;
+
+            }
+
+
+            .search button {
+
+                height: 45px;
+
+            }
+
+
+            .data-grid,
+
+            .coordinates {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .identity {
+
+                flex-direction: column;
+
+                align-items: center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="icon">
+            📍
+        </div>
+
+        <h1>
+            Location Finder
+        </h1>
+
+        <p>
+            Pencarian informasi lokasi menggunakan MapTiler API
+        </p>
+
+
+        <div class="identity">
+
+            <span>
+                Nama: Novan 
+            </span>
+
+            <span>
+                Kelas: TI5 C
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SEARCH -->
+
+    <div class="search-card">
+
+        <label>
+            Masukkan Nama Kota
+        </label>
+
+
+        <div class="search">
+
+            <input
+                type="text"
+                id="inputKota"
+                placeholder="Contoh: Bandung"
+            >
+
+
+            <button onclick="cariLokasi()">
+                Search
+            </button>
+
+        </div>
+
+
+        <div id="status"></div>
+
+    </div>
+
+
+
+    <!-- HASIL -->
+
+    <div id="hasil">
+
+
+        <h3 class="result-title">
+            Hasil Lokasi
+        </h3>
+
+
+        <!-- KOTA -->
+
+        <div class="location">
+
+            <h2 id="kota">
+                -
+            </h2>
+
+            <p>
+                Lokasi ditemukan berdasarkan pencarian
+            </p>
+
+        </div>
+
+
+        <!-- DATA -->
+
+        <div class="data-grid">
+
+
+            <div class="data-card">
+
+                <div class="label">
+                    NEGARA
+                </div>
+
+                <div
+                    class="value"
+                    id="negara"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="data-card">
+
+                <div class="label">
+                    PROVINSI
+                </div>
+
+                <div
+                    class="value"
+                    id="provinsi"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="data-card">
+
+                <div class="label">
+                    KECAMATAN
+                </div>
+
+                <div
+                    class="value"
+                    id="kecamatan"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- KOORDINAT -->
+
+        <div class="coordinates">
+
+
+            <div class="coordinate-card longitude">
+
+                <small>
+                    LONGITUDE
+                </small>
+
+                <strong id="longitude">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="coordinate-card latitude">
+
+                <small>
+                    LATITUDE
+                </small>
+
+                <strong id="latitude">
+                    -
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+async function cariLokasi() {
+
+
+    const input =
+        document.getElementById("inputKota");
+
+
+    const kota =
+        input.value.trim();
+
+
+    const status =
+        document.getElementById("status");
+
+
+    const hasil =
+        document.getElementById("hasil");
+
+
+    /*
+     * Cek input
+     */
+
+    if (!kota) {
+
+        status.textContent =
+            " Masukkan nama kota terlebih dahulu.";
+
+        return;
+
+    }
+
+
+    status.textContent =
+        "Sedang mencari lokasi...";
+
+
+    hasil.style.display = "none";
+
+
+    try {
+
+
+        /*
+         * Kirim kota ke backend
+         *
+         * Contoh:
+         *
+         * /api/lokasi?kota=bandung
+         */
+
+        const response =
+            await fetch(
+                `/api/lokasi?kota=${encodeURIComponent(kota)}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Gagal mengambil data"
+            );
+
+        }
+
+
+        console.log(data);
+
+
+        /*
+         * Tampilkan data
+         */
+
+        document.getElementById("kota")
+            .textContent =
+            data.kota;
+
+
+        document.getElementById("negara")
+            .textContent =
+            data.negara;
+
+
+        document.getElementById("provinsi")
+            .textContent =
+            data.provinsi;
+
+
+        document.getElementById("kecamatan")
+            .textContent =
+            data.kecamatan;
+
+
+        document.getElementById("longitude")
+            .textContent =
+            data.longitude;
+
+
+        document.getElementById("latitude")
+            .textContent =
+            data.latitude;
+
+
+        hasil.style.display =
+            "block";
+
+
+        status.textContent =
+            "✅ Lokasi berhasil ditemukan.";
+
+
+    } catch (error) {
+
+
+        console.error(error);
+
+
+        status.textContent =
+            "❌ " + error.message;
+
+
+    }
+
+}
+
+
+/*
+ * Tekan ENTER untuk Search
+ */
+
+document
+    .getElementById("inputKota")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                cariLokasi();
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
